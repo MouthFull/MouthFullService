@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput='test_coverage/' -l trx -o 'test_result/'
+
   analyze:
     needs:
       - build
@@ -27,3 +28,17 @@ jobs:
       - run: dotnet sonarscanner begin -k:"MouthFull_MouthFullService" -o:"mouthfullservice" -d:sonar.login=$SONAR_TOKEN /d:sonar.host.url='https://sonarcloud.io'
       - run: dotnet build
       - run: dotnet sonarscanner end -d:sonar.login=$SONAR_TOKEN
+
+  package:
+    env:
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+    needs:
+      - analyze
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker image build -f MouthFull.API/Dockerfile -t mouthfull/mouthfullservice .
+      - run: echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
+      - run: docker push mouthfull/mouthfullservice
+      - run: docker logout
