@@ -8,6 +8,7 @@ namespace MouthFull.Domain.Models
 {
     public class User
     {
+        public int EntityId { get; set; }
         public List<Recipe> History { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
