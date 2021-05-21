@@ -12,7 +12,6 @@ namespace MouthFull.Domain
         public int missedIngredientCount { get; set; }
         public List<Ingredient> missedIngredients { get; set; }
         public string title { get; set; }
-
         public List<Ingredient> unusedIngredients { get; set; }
         public int usedIngredientCount { get; set; }
         public List<Ingredient> usedIngredients { get; set; }

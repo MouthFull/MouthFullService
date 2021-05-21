@@ -11,4 +11,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MouthFull.Domain\MouthFull.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
