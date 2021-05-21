@@ -2,6 +2,16 @@ name: CI-pipeline
 on: push
 
 jobs:
+  test-login:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - run:
+        az webapp list --query "[?state=='Running']"
+
+
   build:
     runs-on: ubuntu-20.04
     steps:
@@ -25,7 +35,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: dotnet tool install -g dotnet-sonarscanner
-      - run: dotnet sonarscanner begin -k:"MouthFull_MouthFullService" -o:"mouthfullservice" -d:sonar.login=$SONAR_TOKEN /d:sonar.host.url='https://sonarcloud.io'
+      - run: dotnet sonarscanner begin -k:"MouthFull_MouthFullService" -o:"mouthfullservice" -d:sonar.login=$SONAR_TOKEN /d:sonar.host.url='https://sonarcloud.io' -d:sonar.cs.opencover.reportsPaths='./test_coverage/*.xml' -d:sonar.cs.vstest.reportsPaths='./test_result/*.trx'
       - run: dotnet build
       - run: dotnet sonarscanner end -d:sonar.login=$SONAR_TOKEN
 

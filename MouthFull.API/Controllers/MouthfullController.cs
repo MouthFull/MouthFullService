@@ -22,9 +22,9 @@ namespace MouthFull.API.Controllers
             return new JsonResult(ingredients);
         }
 
-        // GET api/<MouthfullController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/<MouthfullController>/string
+        [HttpGet("{string}")]
+        public string Get(string ingredients)
         {
             return "value";
         }
