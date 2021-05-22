@@ -25,6 +25,6 @@ namespace MouthFull.Domain.Models
         public bool Favorite { get; set; }
         public string Comment { get; set; }
         public int EntityId { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
+        public List<Ingredient> Neededingredients { get; set; }
     }
 }
