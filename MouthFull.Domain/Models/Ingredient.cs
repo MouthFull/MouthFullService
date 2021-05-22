@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouthFull.Domain
+namespace MouthFull.Domain.Models
 {
     public class Ingredient
     {

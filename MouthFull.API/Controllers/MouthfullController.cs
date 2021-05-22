@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MouthFull.Domain;
+using MouthFull.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

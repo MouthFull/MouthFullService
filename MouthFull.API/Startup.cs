@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MouthFull.Storage;
 
 namespace MouthFull.API
 {
@@ -30,6 +32,10 @@ namespace MouthFull.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MouthFull.API", Version = "v1" });
             });
             services.AddHttpClient();
+
+            services.AddDbContextFactory<MouthFullContext>(options => 
+            options.UseSqlServer(Configuration.GetConnectionString("")
+            ));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
