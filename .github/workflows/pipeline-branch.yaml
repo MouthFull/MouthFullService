@@ -1,0 +1,19 @@
+name: CI-pipeline-branch
+on: 
+ push:
+  branches:
+   - '**'
+   - '!main'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: dotnet build
+
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover -p:CoverletOutput='test_coverage/' -l trx -o 'test_result/'
