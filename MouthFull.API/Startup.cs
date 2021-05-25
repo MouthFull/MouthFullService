@@ -34,7 +34,7 @@ namespace MouthFull.API
             services.AddHttpClient();
 
             services.AddDbContextFactory<MouthFullContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("")
+            options.UseSqlServer(Configuration.GetConnectionString("mssql")
             ));
         }
 

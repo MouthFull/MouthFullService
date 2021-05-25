@@ -16,7 +16,6 @@ namespace MouthFull.API.Controllers
     public class MouthfullController : ControllerBase
     {
         public readonly IHttpClientFactory _httpclientfactory;
-        // GET: api/<MouthfullController>
 
         public MouthfullController(IHttpClientFactory httpClientFactory)
         {
@@ -42,7 +41,7 @@ namespace MouthFull.API.Controllers
             var request = $"{ingredienturl}{ingredients}&{numberrecipe}&{apikey}";
             var client = _httpclientfactory.CreateClient();
             HttpResponseMessage response = await client.GetAsync(request);
-            List<Recipe> recipes;
+            List<Recipe> recipes;   
             if (response.IsSuccessStatusCode)
             {
                 recipes = await response.Content.ReadFromJsonAsync<List<Recipe>>();
