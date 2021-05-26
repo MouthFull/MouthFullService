@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using MouthFull.Domain;
 using MouthFull.Domain.Models;
+using MouthFull.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
@@ -15,28 +18,29 @@ namespace MouthFull.API.Controllers
     [ApiController]
     public class RecipeController : ControllerBase
     {
-        public readonly IHttpClientFactory _httpclientfactory;
+        private readonly IHttpClientFactory _httpclientfactory;
 
-        public RecipeController(IHttpClientFactory httpClientFactory)
+        private readonly MouthFullContext _mouthfullcontext;
+
+        public RecipeController(IHttpClientFactory httpClientFactory, MouthFullContext mouthfullcontext)
         {
             _httpclientfactory = httpClientFactory;
+            _mouthfullcontext = mouthfullcontext;
         }
 
         [HttpGet("{recipeId}")]
-        public async Task<IActionResult> Get(string RecipeId)
+        public async Task<IActionResult> Get(string recipeId)
         {
             // Endpoint 
             // Docs:
             // https://spoonacular.com/food-api/docs#Summarize-Recipe
             // Endpoint: 
             // https://api.spoonacular.com/recipes/4632/summary
-
-            System.Console.WriteLine("RecipeId: " + RecipeId);
             
             var ingredienturl = "https://api.spoonacular.com/recipes/";
             var summary = "/summary";
             var apikey = "apiKey=f952296425454efe844155189903b15d";
-            var request = $"{ingredienturl}{RecipeId}{summary}?{apikey}";
+            var request = $"{ingredienturl}{recipeId}{summary}?{apikey}";
             var client = _httpclientfactory.CreateClient();
             
             HttpResponseMessage response = await client.GetAsync(request);
@@ -45,7 +49,9 @@ namespace MouthFull.API.Controllers
             if (response.IsSuccessStatusCode)
             {
                 recipe = await response.Content.ReadFromJsonAsync<RecipeSummary>();
-                System.Console.WriteLine(recipe);
+                recipe.summary = Regex.Replace(recipe.summary, "<.*?>", String.Empty); ;
+                _mouthfullcontext.RecipeSummaries.Add(recipe);
+                _mouthfullcontext.SaveChanges();
             }
             else
             {

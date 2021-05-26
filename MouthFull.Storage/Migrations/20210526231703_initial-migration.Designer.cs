@@ -10,8 +10,8 @@ using MouthFull.Storage;
 namespace MouthFull.Storage.Migrations
 {
     [DbContext(typeof(MouthFullContext))]
-    [Migration("20210525235534_intitial commit")]
-    partial class intitialcommit
+    [Migration("20210526231703_initial-migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

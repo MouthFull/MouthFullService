@@ -2,7 +2,7 @@
 
 namespace MouthFull.Storage.Migrations
 {
-    public partial class intitialcommit : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

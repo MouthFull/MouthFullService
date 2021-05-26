@@ -21,8 +21,11 @@ namespace MouthFull.API
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddScoped<MouthFullContext>();
-      services.AddControllers();
+            services.AddDbContext<MouthFullContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("mssql"));
+            });
+            services.AddControllers();
       services.AddCors(options
           => options.AddDefaultPolicy(builder
           => builder.AllowAnyOrigin())
@@ -32,10 +35,6 @@ namespace MouthFull.API
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "MouthFull.API", Version = "v1" });
       });
       services.AddHttpClient();
-
-      services.AddDbContextFactory<MouthFullContext>(options =>
-      options.UseSqlServer(Configuration.GetConnectionString("mssql")
-      ));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
