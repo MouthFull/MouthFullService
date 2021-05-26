@@ -10,8 +10,8 @@ using MouthFull.Storage;
 namespace MouthFull.Storage.Migrations
 {
     [DbContext(typeof(MouthFullContext))]
-    [Migration("20210525043306_initial-migrations")]
-    partial class initialmigrations
+    [Migration("20210525235534_intitial commit")]
+    partial class intitialcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,6 +77,36 @@ namespace MouthFull.Storage.Migrations
                     b.HasIndex("UserEntityId");
 
                     b.ToTable("Recipes");
+                });
+
+            modelBuilder.Entity("MouthFull.Domain.Models.RecipeSummary", b =>
+                {
+                    b.Property<int>("EntityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Favorite")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EntityId");
+
+                    b.ToTable("RecipeSummaries");
                 });
 
             modelBuilder.Entity("MouthFull.Domain.Models.User", b =>

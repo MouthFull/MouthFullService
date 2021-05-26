@@ -2,10 +2,28 @@
 
 namespace MouthFull.Storage.Migrations
 {
-    public partial class initialmigrations : Migration
+    public partial class intitialcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "RecipeSummaries",
+                columns: table => new
+                {
+                    EntityId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    id = table.Column<int>(type: "int", nullable: false),
+                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Favorite = table.Column<bool>(type: "bit", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RecipeSummaries", x => x.EntityId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -81,6 +99,9 @@ namespace MouthFull.Storage.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Ingredients");
+
+            migrationBuilder.DropTable(
+                name: "RecipeSummaries");
 
             migrationBuilder.DropTable(
                 name: "Recipes");
