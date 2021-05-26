@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using MouthFull.Domain;
 using MouthFull.Domain.Models;
+using MouthFull.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +18,21 @@ namespace MouthFull.API.Controllers
   [ApiController]
   public class HistoryController : ControllerBase
   {
-    IHttpClientFactory _httpclientfactory;
-    public HistoryController(IHttpClientFactory httpClientFactory)
+    public MouthFullContext _mouthFullContext;
+    public HistoryController(MouthFullContext mouthFullContext)
     {
-      _httpclientfactory = httpClientFactory;
+      _mouthFullContext = mouthFullContext;
     }
 
     // GET api/<MouthfullController>/string
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public JsonResult Get()
     {
-      return null;
+      var _context = _mouthFullContext;
+      var recipes = _context.RecipeSummaries.Where(r => r.EntityId > 0);
+      System.Console.WriteLine("Recipes: " + recipes);
+      return new JsonResult(recipes);
+
     }
 
     // POST api/<MouthfullController>
