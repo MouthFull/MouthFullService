@@ -7,7 +7,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-
+using MouthFull.Storage;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace MouthFull.API.Controllers
 {
@@ -17,9 +19,12 @@ namespace MouthFull.API.Controllers
     {
         public readonly IHttpClientFactory _httpclientfactory;
 
-        public RecipeController(IHttpClientFactory httpClientFactory)
+        private readonly MouthFullContext _context;
+
+        public RecipeController(IHttpClientFactory httpClientFactory, MouthFullContext context)
         {
             _httpclientfactory = httpClientFactory;
+            _context = context;
         }
 
         [HttpGet("{recipeId}")]
@@ -29,7 +34,11 @@ namespace MouthFull.API.Controllers
             // Docs:
             // https://spoonacular.com/food-api/docs#Summarize-Recipe
             // Endpoint: 
+            // https://api.spoonacular.com/recipes/{id}/summary
+            // Sample Endpoint:
             // https://api.spoonacular.com/recipes/4632/summary
+            // Testing Endpoing:
+            // http://localhost:5000/api/recipe/4632
 
             System.Console.WriteLine("RecipeId: " + RecipeId);
             
@@ -40,11 +49,15 @@ namespace MouthFull.API.Controllers
             var client = _httpclientfactory.CreateClient();
             
             HttpResponseMessage response = await client.GetAsync(request);
-            RecipeSummary recipe;   
+            RecipeSummary recipe;
                         
             if (response.IsSuccessStatusCode)
             {
                 recipe = await response.Content.ReadFromJsonAsync<RecipeSummary>();
+            
+                _context.RecipeSummaries.Add(recipe);
+                _context.SaveChanges();
+
                 System.Console.WriteLine(recipe);
             }
             else
