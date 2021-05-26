@@ -29,8 +29,7 @@ namespace MouthFull.API.Controllers
     public JsonResult Get()
     {
       var _context = _mouthFullContext;
-      var recipes = _context.RecipeSummaries.Where(r => r.EntityId > 0);
-      System.Console.WriteLine("Recipes: " + recipes);
+      var recipes = _context.RecipeSummaries.ToList();
       return new JsonResult(recipes);
 
     }
