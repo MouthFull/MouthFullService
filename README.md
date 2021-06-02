@@ -16,22 +16,22 @@ Add an end-point for data validation on the ingredient list.
 Getting started
 git clone https://github.com/MouthFull/Mouthfull-Client.git
 
-Development server
+# Development server
 dotnet run http://localhost:5001/
 
-Build
+# Build
 dotnet build 
 
-Running unit tests
+# Running unit tests
 dotnet test
 
-Usage
+# Usage
 Services for Client to Consume Information of recipe
 
-Contributors
+# Contributors
 Elwyn Palmerton
 Glenn Edinbourgh
 Phuc Bao Pham
 
-License
+# License
 This project uses the following license: .
