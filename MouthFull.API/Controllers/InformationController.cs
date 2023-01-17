@@ -12,17 +12,18 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
+
 namespace MouthFull.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RecipeController : ControllerBase
+    public class InformationController : ControllerBase
     {
         private readonly IHttpClientFactory _httpclientfactory;
 
         private readonly MouthFullContext _mouthfullcontext;
 
-        public RecipeController(IHttpClientFactory httpClientFactory, MouthFullContext mouthfullcontext)
+        public InformationController(IHttpClientFactory httpClientFactory, MouthFullContext mouthfullcontext)
         {
             _httpclientfactory = httpClientFactory;
             _mouthfullcontext = mouthfullcontext;
@@ -40,17 +41,17 @@ namespace MouthFull.API.Controllers
             System.Diagnostics.Debug.WriteLine(recipeId);
 
             var ingredienturl = "https://api.spoonacular.com/recipes/";
-            var summary = "/summary";
+            var summary = "/information";
             var apikey = "apiKey=f952296425454efe844155189903b15d";
             var request = $"{ingredienturl}{recipeId}{summary}?{apikey}";
             var client = _httpclientfactory.CreateClient();
 
             HttpResponseMessage response = await client.GetAsync(request);
-            RecipeSummary recipe;
+            System.Text.Json.JsonDocument recipeInfo;
 
             if (response.IsSuccessStatusCode)
             {
-                recipe = await response.Content.ReadFromJsonAsync<RecipeSummary>();
+                recipeInfo = await response.Content.ReadFromJsonAsync<System.Text.Json.JsonDocument>();
                 // recipe.summary = Regex.Replace(recipe.summary, "<.*?>", String.Empty); ;
                 // _mouthfullcontext.RecipeSummaries.Add(recipe);
                 // _mouthfullcontext.SaveChanges();
@@ -60,7 +61,7 @@ namespace MouthFull.API.Controllers
                 return BadRequest();
             }
 
-            return new JsonResult(recipe);
+            return new JsonResult(recipeInfo);
 
         }
 
