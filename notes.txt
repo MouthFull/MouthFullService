@@ -1,0 +1,10 @@
+To build with docker:
+(Run from inside the MouthFull.API folder)
+
+docker build -t <tag> -f Dockerfile ../
+
+tag e.g. mf:1
+
+To run with docker:
+
+docker run -dp 5001:80 <image#>
